@@ -27,6 +27,9 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.datastore.QueryResultList;
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.cloud.datastore.Datastore;
+import com.google.cloud.datastore.DatastoreOptions;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -83,6 +86,12 @@ public class ListPeopleServlet extends HttpServlet {
     w.println("</ul>");
 
     String cursorString = results.getCursor().toWebSafeString();
+
+    GoogleCredentials credentials = GoogleCredentials.getApplicationDefault();
+    w.println(credentials);
+
+    Datastore client = DatastoreOptions.getDefaultInstance().getService();
+    w.println(client);
 
     // This servlet lives at '/people'.
     w.println("<a href='/people?cursor=" + cursorString + "'>Next page</a>");
